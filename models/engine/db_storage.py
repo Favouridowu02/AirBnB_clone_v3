@@ -89,7 +89,8 @@ class DBStorage:
         if cls is None or id is None:
             return None
         objects = self.all(cls)
-        val = objects[f"{cls.__name__}.{id}"]
+        inst = "{}.{}".format(cls.__name__, id)
+        val = objects[inst] if inst in objects.keys() else None
         return val
 
     def count(self, cls=None):
