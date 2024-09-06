@@ -77,18 +77,20 @@ class DBStorage:
 
     def get(self, cls, id):
         """
-            This Method retrives one object from the database 
+            This Method retrives one object from the database
 
             Arguments:
                 cls: The Class
                 id: A String representation of the ID
-            
-            Return: The object based on the class and it ID, or None id not found.
+
+            Return: The object based on the class and it ID, or None
+                    id not found.
         """
-        if cls == None or id == None:
+        if cls is None or id is None:
             return None
         objects = self.all(cls)
-        val = objects[f"{cls.__name__}.{id}"]
+        inst = "{}.{}".format(cls.__name__, id)
+        val = objects[inst] if inst in objects.keys() else None
         return val
 
     def count(self, cls=None):
