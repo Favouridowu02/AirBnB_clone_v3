@@ -82,8 +82,8 @@ class FileStorage:
         """
         if cls is None or id is None:
             return None
-        val = self.__objects[f"{cls.__name__}.{id}"]
-        # print("\n\n\n",val, "\n\n")
+        inst = "{}.{}".format(cls.__name__, id)
+        val = self.__objects[inst] if inst in self.__objects.keys() else None
         return val
 
     def count(self, cls=None):
