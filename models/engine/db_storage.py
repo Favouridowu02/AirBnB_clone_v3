@@ -85,7 +85,7 @@ class DBStorage:
             
             Return: The object based on the class and it ID, or None id not found.
         """
-        if cls == None or id == None:
+        if cls is None or id is None:
             return None
         objects = self.all(cls)
         val = objects[f"{cls.__name__}.{id}"]
