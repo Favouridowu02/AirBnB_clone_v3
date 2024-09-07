@@ -10,7 +10,7 @@ from api.v1.views import app_views
 app = Flask(__name__)
 
 
-print(app_views)
+# print(app_views)
 app.register_blueprint(blueprint=app_views)
 
 @app.route('/')
