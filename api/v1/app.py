@@ -2,7 +2,7 @@
 """
     This Module Contains the api using flask
 """
-from flask import Flask
+from flask import Flask, jsonify
 from os import getenv
 from models import storage
 from api.v1.views import app_views
@@ -16,6 +16,11 @@ app.register_blueprint(blueprint=app_views)
 @app.route('/')
 def home():
     return "Home"
+
+
+@app.errorhandler(404)
+def page_not_found(error):
+    return jsonify({"error": "Not found"})
 
 
 @app.teardown_appcontext
