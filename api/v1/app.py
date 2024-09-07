@@ -10,16 +10,18 @@ from api.v1.views import app_views
 app = Flask(__name__)
 
 
-# print(app_views)
 app.register_blueprint(blueprint=app_views)
+
 
 @app.route('/')
 def home():
     return "Home"
 
+
 @app.teardown_appcontext
 def close(exception=True):
     return storage.close()
+
 
 if __name__ == "__main__":
     HBNB_API_HOST = getenv("HBNB_API_HOST")
