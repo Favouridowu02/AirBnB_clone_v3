@@ -32,4 +32,5 @@ def stats():
         "states": storage.count(State),
         "users": storage.count(User)
     }
+    print(count)
     return jsonify(count)

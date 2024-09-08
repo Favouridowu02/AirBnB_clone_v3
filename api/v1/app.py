@@ -20,7 +20,9 @@ def home():
 
 @app.errorhandler(404)
 def page_not_found(error):
-    return jsonify({"error": "Not found"})
+    return jsonify({
+        "error": "Not found"
+        }), 404
 
 
 @app.teardown_appcontext
@@ -35,5 +37,4 @@ if __name__ == "__main__":
         HBNB_API_HOST = '0.0.0.0'
     if not getenv("HBNB_API_PORT"):
         HBNB_API_PORT = '5000'
-    app.run(host=HBNB_API_HOST, port=HBNB_API_PORT, threaded=True
-            """debug=True""")
+    app.run(host=HBNB_API_HOST, port=HBNB_API_PORT, threaded=True)
