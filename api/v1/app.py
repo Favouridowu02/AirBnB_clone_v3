@@ -12,6 +12,7 @@ app = Flask(__name__)
 app.config['JSONIFY_PRETTYPRINT_REGULAR'] = True
 app.register_blueprint(blueprint=app_views)
 
+
 @app.route('/')
 def home():
     return "Home"
