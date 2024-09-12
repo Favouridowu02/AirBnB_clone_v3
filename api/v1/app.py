@@ -12,6 +12,7 @@ app = Flask(__name__)
 app.config['JSONIFY_PRETTYPRINT_REGULAR'] = True
 app.register_blueprint(blueprint=app_views)
 
+
 @app.route('/')
 def home():
     return "Home"
@@ -34,4 +35,4 @@ if __name__ == "__main__":
         HBNB_API_HOST = '0.0.0.0'
     if not getenv("HBNB_API_PORT"):
         HBNB_API_PORT = '5000'
-    app.run(host=HBNB_API_HOST, port=HBNB_API_PORT, threaded=True)
+    app.run(host=HBNB_API_HOST, port=HBNB_API_PORT, threaded=True, debug=True)
