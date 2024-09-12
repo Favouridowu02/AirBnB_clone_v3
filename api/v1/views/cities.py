@@ -20,7 +20,7 @@ def state_cities(state_id):
             state_obj = state
     for city in state_obj.cities:
         cities.append(city.to_dict())
-    if cities:
+    if state:
         return jsonify(cities), 201
     abort(404)
 
