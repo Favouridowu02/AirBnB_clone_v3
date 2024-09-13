@@ -47,14 +47,14 @@ def delete_cities(city_id):
                  methods=['POST'])
 def post_cities(state_id):
     """This Method creates a City"""
-    state_obj = storage.get(State, state_id)
-    if not state_obj:
-        abort(404)
     data = request.get_json()
     if not data:
         return jsonify({"error": "Not a JSON"}), 400
     if "name" not in data.keys():
         return jsonify({"error": "Missing name"}), 400
+    state_obj = storage.get(State, state_id)
+    if not state_obj:
+        abort(404)
     city_obj = City(state_id=state_id, **data)
     storage.new(city_obj)
     storage.save()
@@ -64,12 +64,12 @@ def post_cities(state_id):
 @app_views.route('/cities/<city_id>', strict_slashes=True, methods=['PUT'])
 def put_city(city_id):
     """This Method updates the data of a city"""
-    city_obj = storage.get(City, city_id)
-    if not city_obj:
-        abort(404)
     data = request.get_json()
     if not data:
         return jsonify({"error": "Not a JSON"}), 400
+    city_obj = storage.get(City, city_id)
+    if not city_obj:
+        abort(404)
     for key, value in data.items():
         if key not in ["id", "created_at", "updated_at"]:
             setattr(city_obj, key, value)
