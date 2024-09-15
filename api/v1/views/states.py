@@ -11,7 +11,7 @@ from flask import abort, jsonify, request
 
 @app_views.route('/states/', strict_slashes=True)
 def states():
-    states = list(state.to_dict() for state in storage.all("State").values())
+    states = [state.to_dict() for state in storage.all("State").values()]
     return jsonify(states)
 
 
