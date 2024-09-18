@@ -7,8 +7,9 @@ from models.amenity import Amenity
 from models import storage
 from flask import abort, jsonify, request
 
-@app_views.route('/amenities/<amenity_id>', strict_slashes=True, mmethods=['GET'])
-def get_amenities(amenity_id = None):
+@app_views.route('/amenities', strict_slashes=True, methods=['GET'])
+@app_views.route('/amenities/<amenity_id>', strict_slashes=True, methods=['GET'])
+def get_amenities(amenity_id=None):
     """
         This Method returns all the Amenities
 
@@ -22,11 +23,14 @@ def get_amenities(amenity_id = None):
     if amenity_id == None:
         for amenity in storage.all(Amenity).values():
             amenities.append(amenity.to_dict())
+        print(amenities)
         return jsonify(amenities), 200
     else:
         amenity = storage.get(Amenity, amenity_id)
+        print(amenity)
         if not amenity:
             abort(404)
+        return jsonify(amenity), 200
 
 @app_views.route('/amenities/<amenity_id>', strict_slashes=True, methods=['DELETE'])
 def delete_amenity(amenity_id):
