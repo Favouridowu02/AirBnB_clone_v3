@@ -31,7 +31,7 @@ def get_amenities(amenity_id=None):
         amenity = storage.get(Amenity, amenity_id)
         if not amenity:
             abort(404)
-        return jsonify(amenity), 200
+        return jsonify(amenity.to_dict()), 200
 
 
 @app_views.route('/amenities/<amenity_id>', strict_slashes=True,
@@ -45,22 +45,23 @@ def delete_amenity(amenity_id):
         abort(404)
     storage.delete(amenity)
     storage.save()
+    return jsonify({}), 200
 
 
-@app_views.route('/amenities', strict_slashes=True, methods=['POST'])
+@app_views.route('/amenities/', strict_slashes=True, methods=['POST'])
 def post_amenity():
     """
         This method creates an instances of amenities
     """
-    data = request.get_json()
-    if not data:
+    if request.content_type != 'application/json':
         return jsonify({"error": "Not a JSON"}), 400
-    if "name" not in data:
+    data = request.get_json()
+    if "name" not in data.keys():
         return jsonify({"error": "Missing name"}), 400
     new_amenity = Amenity(**data)
     storage.new(new_amenity)
     storage.save()
-    return jsonify(new_amenity.to_dict()), 200
+    return jsonify(new_amenity.to_dict()), 201
 
 
 @app_views.route('/amenities/<amenity_id>', strict_slashes=True,
@@ -77,11 +78,13 @@ def put_amenity(amenity_id):
     amenity = storage.get(Amenity, amenity_id)
     if not amenity:
         abort(404)
+    if request.content_type != "application/json":
+        return jsonify({"error": "Not a JSON"}), 400
     data = request.get_json()
     if not data:
-        jsonify({"error": "Not a JSON"}), 400
+        return jsonify({"error": "Not a JSON"}), 400
     if "name" not in data:
-        jsonify({"error": "Missing name"}), 400
+        return jsonify({"error": "Missing name"}), 400
     for key, value in data.items():
         if key not in ["id", "created_at", "updated_at"]:
             setattr(amenity, key, value)
