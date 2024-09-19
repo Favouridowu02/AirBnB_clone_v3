@@ -9,7 +9,8 @@ from flask import abort, jsonify, request
 
 
 @app_views.route('/amenities', strict_slashes=True, methods=['GET'])
-@app_views.route('/amenities/<amenity_id>', strict_slashes=True, methods=['GET'])
+@app_views.route('/amenities/<amenity_id>', strict_slashes=True,
+                 methods=['GET'])
 def get_amenities(amenity_id=None):
     """
         This Method returns all the Amenities
@@ -18,10 +19,11 @@ def get_amenities(amenity_id=None):
             amenity_id: the amenity Id to be returned or None.
 
         Return:
-            this method returns the amenity value to be returned or All if the amenit_id is None.
+            this method returns the amenity value to be returned or All
+            if the amenit_id is None.
     """
     amenities = []
-    if amenity_id == None:
+    if amenity_id is None:
         for amenity in storage.all(Amenity).values():
             amenities.append(amenity.to_dict())
         return jsonify(amenities), 200
@@ -32,7 +34,8 @@ def get_amenities(amenity_id=None):
         return jsonify(amenity), 200
 
 
-@app_views.route('/amenities/<amenity_id>', strict_slashes=True, methods=['DELETE'])
+@app_views.route('/amenities/<amenity_id>', strict_slashes=True,
+                 methods=['DELETE'])
 def delete_amenity(amenity_id):
     """
         This Method deletes the amenity instance
@@ -60,7 +63,8 @@ def post_amenity():
     return jsonify(new_amenity.to_dict()), 200
 
 
-@app_views.route('/amenities/<amenity_id>', strict_slashes=True, methods=['PUT'])
+@app_views.route('/amenities/<amenity_id>', strict_slashes=True,
+                 methods=['PUT'])
 def put_amenity(amenity_id):
     """
         This method creates Updates the Attributes of an instance of a class
@@ -75,7 +79,7 @@ def put_amenity(amenity_id):
         abort(404)
     data = request.get_json()
     if not data:
-        jsonify({"error":"Not a JSON"}), 400
+        jsonify({"error": "Not a JSON"}), 400
     if "name" not in data:
         jsonify({"error": "Missing name"}), 400
     for key, value in data.items():

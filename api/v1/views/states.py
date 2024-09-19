@@ -65,4 +65,3 @@ def put_states(state_id):
             state_obj.save()
             return jsonify(state), 200
     abort(404)
-
