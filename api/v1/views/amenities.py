@@ -71,19 +71,15 @@ def put_amenity(amenity_id):
             200 when succesful
     """
     amenity = storage.get(Amenity, amenity_id)
-    amenity_dict = amenity.to_dict()
     if not amenity:
         abort(404)
-    storage.delete(amenity)
     data = request.get_json()
     if not data:
-        jsonify({"Not a JSON"}), 400
+        jsonify({"error":"Not a JSON"}), 400
     if "name" not in data:
-        jsonify({"Missing name"}), 400
+        jsonify({"error": "Missing name"}), 400
     for key, value in data.items():
         if key not in ["id", "created_at", "updated_at"]:
-            amenity_dict[key] = value
-    amenity = Amenity(**amenity_dict)
+            setattr(amenity, key, value)
     amenity.save()
     return jsonify(amenity.to_dict()), 200
-    
