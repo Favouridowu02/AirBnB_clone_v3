@@ -13,8 +13,10 @@ from flask import jsonify, request, abort
 
 
 @app_views.route('cities/<city_id>/places', strict_slashes=True, methods=["GET"])
-def get_cities_places(city_id):
+def get_cities_places(city_id=None):
     """This Method returns the places with a specific city_id"""
+    if not city_id:
+        abort(404)
     places = []
     for place in storage.all(Place).values():
         if place.city_id == city_id:
@@ -25,8 +27,10 @@ def get_cities_places(city_id):
 
 
 @app_views.route('/places/<place_id>', strict_slashes=True, methods=['GET'])
-def get_places(place_id):
+def get_places(place_id=None):
     """This Method returns the places with a place_id"""
+    if not place_id:
+        abort(404)
     place = storage.get(Place, place_id)
     if not place:
         abort(404)
@@ -34,8 +38,10 @@ def get_places(place_id):
 
 
 @app_views.route('/places/<place_id>', strict_slashes=True, methods=['DELETE'])
-def delete_place(place_id):
+def delete_place(place_id=None):
     """This method deletes a place based on the place_id"""
+    if not place_id:
+        None
     place = storage.get(Place, place_id)
     if not place:
         abort(404)
@@ -45,8 +51,10 @@ def delete_place(place_id):
 
 
 @app_views.route('/cities/<city_id>/places/', strict_slashes=True, methods=['POST'])
-def post_place(city_id):
+def post_place(city_id=None):
     """This Method Creates a new Place"""
+    if not city:
+        abort(404)
     city = storage.get(City, city_id)
     if not city:
         abort(404)
@@ -67,8 +75,10 @@ def post_place(city_id):
 
 
 @app_views.route('/places/<place_id>', strict_slashes=True, methods=['PUT'])
-def put_place(place_id):
+def put_place(place_id=None):
     """This Method updates the data of a currently existing place"""
+    if not place_id:
+        abort(404)
     if request.content_type != "application/json":
         return jsonify({"error": "Not a JSON"}), 400
     place = storage.get(Place, place_id)
